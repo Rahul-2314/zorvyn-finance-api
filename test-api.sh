@@ -1,7 +1,8 @@
 #!/bin/bash
 # chmod +x test-api.sh && ./test-api.sh
 
-BASE="http://localhost:5000/api"
+# BASE="http://localhost:5000/api"
+BASE="https://zorvyn-finance-api-y298.onrender.com/api"
 LINE="─────────────────────────────────────────────"
 pass=0
 fail=0

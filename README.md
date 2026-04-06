@@ -1,9 +1,9 @@
 # Finance Backend API
 
-A backend system for managing financial records with role-based access control. Built as part of an internship assignment — the goal was to design something that could actually work in a real dashboard, not just pass a checklist.
+A backend system for managing financial records with role-based access control. Built as part of an internship assignment - the goal was to design something that could actually work in a real dashboard, not just pass a checklist.
 
 The API handles users, financial records, and a set of dashboard endpoints that aggregate data for reporting. Access is controlled at the route level based on three roles: viewer, analyst, and admin.
-
+live - https://zorvyn-finance-api-y298.onrender.com/api
 ---
 
 ## What's inside
@@ -80,7 +80,7 @@ This creates three users and ten records spread across two months. Credentials a
 
 ## Roles
 
-There are three roles and they form a simple hierarchy — admin can do everything an analyst can, analyst can do everything a viewer can.
+There are three roles and they form a simple hierarchy - admin can do everything an analyst can, analyst can do everything a viewer can.
 
 | Action | viewer | analyst | admin |
 |---|:---:|:---:|:---:|
@@ -143,7 +143,7 @@ Returns the same token + user object as register.
 
 ---
 
-### Users — admin only
+### Users - admin only
 
 #### `GET /users`
 
@@ -169,7 +169,7 @@ Deactivated users can't log in.
 
 ### Records
 
-#### `GET /records` — viewer+
+#### `GET /records` - viewer+
 
 Supports filtering and pagination via query params:
 
@@ -184,9 +184,9 @@ Supports filtering and pagination via query params:
 
 Response includes `total`, `page`, and `pages` for the frontend to build pagination.
 
-#### `GET /records/:id` — viewer+
+#### `GET /records/:id` - viewer+
 
-#### `POST /records` — analyst+
+#### `POST /records` - analyst+
 
 ```json
 {
@@ -200,19 +200,19 @@ Response includes `total`, `page`, and `pages` for the frontend to build paginat
 
 `amount` must be a positive number. `notes` is optional.
 
-#### `PUT /records/:id` — analyst+
+#### `PUT /records/:id` - analyst+
 
 Same fields as create, all optional. Only send what you want to change.
 
-#### `DELETE /records/:id` — admin only
+#### `DELETE /records/:id` - admin only
 
-Soft delete. Sets a `deletedAt` timestamp — the record stays in the database but disappears from all queries. This keeps the history intact for auditing.
+Soft delete. Sets a `deletedAt` timestamp - the record stays in the database but disappears from all queries. This keeps the history intact for auditing.
 
 ---
 
 ### Dashboard
 
-#### `GET /dashboard/summary` — viewer+
+#### `GET /dashboard/summary` - viewer+
 
 ```json
 {
@@ -223,11 +223,11 @@ Soft delete. Sets a `deletedAt` timestamp — the record stays in the database b
 }
 ```
 
-#### `GET /dashboard/recent` — viewer+
+#### `GET /dashboard/recent` - viewer+
 
 Returns the most recently created records. Add `?limit=5` to control how many (max 50).
 
-#### `GET /dashboard/categories` — analyst+
+#### `GET /dashboard/categories` - analyst+
 
 Totals grouped by category and type, sorted by total descending. Useful for a breakdown chart.
 
@@ -238,7 +238,7 @@ Totals grouped by category and type, sorted by total descending. Useful for a br
 ]
 ```
 
-#### `GET /dashboard/trends` — analyst+
+#### `GET /dashboard/trends` - analyst+
 
 Monthly totals split by type, sorted by year and month. Feed this directly into a line chart.
 
@@ -259,7 +259,7 @@ Make sure the server is running first, then:
 chmod +x test-api.sh && ./test-api.sh
 ```
 
-Covers 53 cases across all endpoints — auth, role enforcement, validation, soft delete, pagination, and edge cases like double-deleting a record or hitting a route with an invalid token.
+Covers 53 cases across all endpoints - auth, role enforcement, validation, soft delete, pagination, and edge cases like double-deleting a record or hitting a route with an invalid token.
 
 ---
 
@@ -267,11 +267,11 @@ Covers 53 cases across all endpoints — auth, role enforcement, validation, sof
 
 **Why soft delete instead of hard delete**
 
-Financial records shouldn't disappear. If someone deletes a record by mistake, or if you need to reconcile numbers from a past period, a hard delete makes that impossible. Setting `deletedAt` keeps the data around while keeping it out of normal queries. It also makes the dashboard totals trustworthy — they only count active records.
+Financial records shouldn't disappear. If someone deletes a record by mistake, or if you need to reconcile numbers from a past period, a hard delete makes that impossible. Setting `deletedAt` keeps the data around while keeping it out of normal queries. It also makes the dashboard totals trustworthy - they only count active records.
 
 **Why the dashboard runs in MongoDB**
 
-The summary, trend, and category endpoints all use MongoDB aggregation pipelines rather than fetching records into Node and summing them in JavaScript. This is the right call — the database is built for this kind of grouped computation and it stays fast regardless of how many records accumulate.
+The summary, trend, and category endpoints all use MongoDB aggregation pipelines rather than fetching records into Node and summing them in JavaScript. This is the right call - the database is built for this kind of grouped computation and it stays fast regardless of how many records accumulate.
 
 **Why Zod for validation**
 
@@ -279,7 +279,7 @@ Zod schemas are defined once and shared between create and update routes (the up
 
 **Why roles use a numeric hierarchy**
 
-Instead of checking role names with a list like `["admin", "analyst"]`, each role maps to a number (`viewer=1, analyst=2, admin=3`). The middleware checks if the user's weight meets the minimum required for that route. Adding a new role later means changing one object, and the behavior cascades naturally — an admin always passes a check that requires analyst because 3 ≥ 2.
+Instead of checking role names with a list like `["admin", "analyst"]`, each role maps to a number (`viewer=1, analyst=2, admin=3`). The middleware checks if the user's weight meets the minimum required for that route. Adding a new role later means changing one object, and the behavior cascades naturally - an admin always passes a check that requires analyst because 3 ≥ 2.
 
 ---
 

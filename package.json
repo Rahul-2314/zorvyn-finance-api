@@ -1,0 +1,26 @@
+{
+	"name": "finance-backend",
+	"version": "1.0.0",
+	"type": "module",
+	"description": "Finance Data Processing and Access Control Backend",
+	"main": "app.js",
+	"scripts": {
+		"start": "node src/app.js",
+		"dev": "nodemon src/app.js",
+		"seed": "node src/config/seed.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Rahul Chowdhury",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^3.0.3",
+		"dotenv": "^17.4.0",
+		"express": "^5.2.1",
+		"jsonwebtoken": "^9.0.3",
+		"mongoose": "^9.3.3",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.14"
+	}
+}

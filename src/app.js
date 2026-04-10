@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
     return res.json({success: true, message: "Zorvyn assignment - Finance API Live"})
 });
 
